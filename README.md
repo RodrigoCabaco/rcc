@@ -1,4 +1,4 @@
-# rCompiler
+# rCC -> rC Compiler
 A Dotnet repo to convert rC files into executables       
 
 ## Requirements to run the compiler:      

@@ -13,10 +13,10 @@ A Dotnet repo to convert rC files into executables
 - Place rCompiler.exe and Compile_Example.rcompiler in the same directory as the rC source code;      
 - Run the following:
 ```
-rCompiler.exe <all_the_files.rcode> <os>
+rcc.exe <all_the_files.rcode> <os>
 ```   
 - Example:
 ```
-rCompiler.exe Main.rcode headers.h.rcode --windows        
-rCompiler.exe Main.rcode headers.h.rcode --linux
+rcc.exe Main.rcode headers.h.rcode --windows        
+rcc.exe Main.rcode headers.h.rcode --linux
 ```   

@@ -734,8 +734,13 @@ public class rCompiler{
             try {
               if (strNames.Contains(line.Split(' ')[1].Split('>').First())) {
                 if (line.Split('>').Last().ToLower().StartsWith(""$read"") == false) {
-                  strValues[strNames.IndexOf(line.Split(' ')[1].Split('>').First())] = line.Split('>')[2].Split('\""')[1].Split('\""').First();
-
+                  if(line.Contains(""\"""")){
+                    strValues[strNames.IndexOf(line.Split(' ')[1].Split('>').First())] = line.Split('>')[2].Split('\""')[1].Split('\""').First();
+                  }else{
+                    
+                      strValues[strNames.IndexOf(line.Split(' ')[1].Split('>').First())] = strValues[strNames.IndexOf(line.Split('>')[2])];
+                    
+                  }
                 } else if (line.Split('>').Last().ToLower().Split(' ')[0] == ""$readkey"") {
                   if (Console.KeyAvailable) {
                     strValues[strNames.IndexOf(line.Split(' ')[1].Split('>').First())] = Console.ReadKey().Key.ToString();
@@ -772,6 +777,7 @@ public class rCompiler{
 
             } catch (Exception exc) {
               int errorLine = code.IndexOf(line);
+              Console.WriteLine(line);
               Console.WriteLine($""Invalid Syntax (Line {errorLine++}) Exception: "" + exc);
             }
             if (line.ToLower().Contains(""add"") != true) {
@@ -2086,6 +2092,7 @@ public class rCompiler{
 
       }
     }
+    }
 
     }
 }";
@@ -2109,8 +2116,8 @@ public class rCompiler{
             }
             Console.WriteLine("Compiling... ");
             System.Threading.Thread.Sleep(1500);
-            if(File.Exists(args[0].Split('.')[0]+".exe")){
-            Console.WriteLine("Compiled into -> "+args[0].Split('.')[0]+".exe");
+            if(File.Exists(args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]+".exe")){
+            Console.WriteLine("Compiled into -> "+args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]+".exe");
             }else{
                  Console.ForegroundColor = ConsoleColor.Red;
               Console.WriteLine("Error: Compilation Error");

@@ -2093,14 +2093,14 @@ public class rCompiler{
 
             final_to_write+=_Compile_example;
                      
-            StreamWriter __write = new StreamWriter(args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
+            StreamWriter __write = new StreamWriter(args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             __write.Write(final_to_write);
             __write.Close();
-            Console.WriteLine("Made Temp file -> "+args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
+            Console.WriteLine("Made Temp file -> "+args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             if(args.Contains("--windows")){
-              Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
+              Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             }else if(args.Contains("--linux")){
-              Process.Start("csc",  args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
+              Process.Start("csc",  args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             }else{
               Console.ForegroundColor = ConsoleColor.Red;
               Console.WriteLine("Error: Please include the OS you're targeting as the last argument, example: --windows or --linux");
@@ -2114,12 +2114,12 @@ public class rCompiler{
             }else{
                  Console.ForegroundColor = ConsoleColor.Red;
               Console.WriteLine("Error: Compilation Error");
-              File.Delete(args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
+              File.Delete(args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
               Console.ResetColor();
               Environment.Exit(1);
             }
-            File.Delete(args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
-            Console.WriteLine("Deleted Temp file -> "+args[0].Split(new [] {"./"}, StringSplitOptions.None)[1].Split(new [] {".\\"}, StringSplitOptions.None)[1].Split('.')[0]+".cs");
+            File.Delete(args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
+            Console.WriteLine("Deleted Temp file -> "+args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Compilation Finished...");
             Console.ResetColor();

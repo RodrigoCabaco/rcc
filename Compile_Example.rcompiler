@@ -673,7 +673,7 @@ public class rCompiler{
 
             } catch (Exception exc) {
               int errorLine = code.IndexOf(line);
-              Console.WriteLine($"Invalid Syntax (Line {errorLine++}) Exception: " + exc);
+              Console.WriteLine("Invalid Syntax (Line"+ errorLine+1.ToString()+ "Exception: " + exc);
             }
             if (line.ToLower().Contains("add") != true) {
               continue;
@@ -751,7 +751,7 @@ public class rCompiler{
               }
             } catch {
               int errorLine = code.IndexOf(line);
-              Console.WriteLine($"Invalid Syntax (Line {errorLine--})");
+              Console.WriteLine("Invalid Syntax (Line"+ errorLine-1.ToString()+ "Exception: " + exc);
             }
             continue;
           } else if (line.ToLower().StartsWith("for") && line.ToLower().Contains("in range:")) {
@@ -854,24 +854,7 @@ public class rCompiler{
             }
             // _Compile(compileAfter);
             continue;
-          } else if (references.Contains("threading") && line.StartsWith("newThread(")) {
-            try {
-              string nameof_func = line.Split('(')[1].Split('(')[0];
-              void newThreadStart() {
-                Compile(lines_for_functions[names_for_functions.IndexOf(nameof_func)], numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);
-                Console.WriteLine("");
-              }
-
-              ThreadStart thread_start = new ThreadStart(newThreadStart);
-              Thread newThread = new Thread(thread_start);
-              newThread.Start();
-              while (newThread.IsAlive != true) {
-                newThread.Start();
-              }
-            } catch {
-              Console.WriteLine($"{line} : Error Starting Thread");
-            }
-
+          } 
           }
 
           if (line.StartsWith("function ")) {
@@ -1575,7 +1558,7 @@ public class rCompiler{
                     try {
                       strValues[strNames.IndexOf(str)] = strValues[strNames.IndexOf(str)] + line.Split('+')[1].Split(')').First();
                     } catch {
-                      Console.WriteLine($"One of the Following Strings Does Not Exist: {line.Split('+')[0].Split(')').First()} or {line.Split('+')[0].Split(')').First()}");
+                     Console.WriteLine("One of the Following Strings Does Not Exist:"+ line.Split('+')[0].Split(')').First()+" or "+line.Split('+')[0].Split(')').First());
                     }
                   }
                 } else if (str == "$readline") {

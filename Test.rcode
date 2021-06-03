@@ -1,2 +1,4 @@
-Write "hello"
+import process
+StartProcess file:echo; args:"hello";
+
 exit()

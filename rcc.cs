@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using rC;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ namespace rC
 {
    public static class Split
     {
-    public class rcc{
+    public class rCompiler{
 
        static void Main(string [] args){
 
@@ -80,18 +80,15 @@ namespace rC
             List<string> names_for_functions = new List<string>();
             List<string> definers_to_replace = new List<string>();
             List<string> defined_to_replace = new List<string>();
-            string code_str = "+'@'+'"'+final_code_str+'"'+@";
+            
             strListNames.Add(""args"");
             strListValues.Add(new List<string>());
              foreach (var arg in args)
             {
                 int x = Array.IndexOf(args,arg);
-                if (x != 0)
-                {
                     strNames.Add(""arg"" + x);
                     strValues.Add(arg);
                     strListValues[strListNames.IndexOf(""args"")].Add(arg);
-                }
             }
         strNames.Add(""line_break"");
         strValues.Add(""\n"");
@@ -99,6 +96,7 @@ namespace rC
         strValues.Add(""modules"");
         strNames.Add(""path"");
         strValues.Add(""/usr/lib/rC"");
+        string code_str = "+'@'+'"'+final_code_str+'"'+@";
             List<string> code = code_str.Split('\n').ToList();
  rCompiler.Compile(code, numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);            }
             }
@@ -115,6 +113,7 @@ namespace rC
             __write.Write(final_to_write);
             __write.Close();
             Console.WriteLine("Made Temp file -> "+args[0].Split('.')[0]+".cs");
+            Environment.Exit(1);
             if(args.Contains("--windows")){
               Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split('.')[0]+".cs");
             }else if(args.Contains("--linux")){

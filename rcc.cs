@@ -19,7 +19,7 @@ namespace rC
             Console.WriteLine("Note: if running this on windows, make sure to run it on Developer Command Prompt");
             Console.WriteLine("Note: if running this on linux, make sure to have the mono toolkit installed (csc is needed) ");
             Console.WriteLine("Note: the file \"Compile_Example.rcompiler\", seen in https://www.github.com/RodrigoCabaco/rCompiler must be in current directory");
-            Console.WriteLine("Note: Usage -> rCompiler.exe <files> --windows/linux");
+            Console.WriteLine("Note: Usage -> rCompiler.exe  <files> --windows/linux");
             Console.ResetColor();
             List<string> final_code = new List<string>();
             string final_code_str = "";
@@ -113,7 +113,6 @@ namespace rC
             __write.Write(final_to_write);
             __write.Close();
             Console.WriteLine("Made Temp file -> "+args[0].Split('.')[0]+".cs");
-            Environment.Exit(1);
             if(args.Contains("--windows")){
               Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split('.')[0]+".cs");
             }else if(args.Contains("--linux")){

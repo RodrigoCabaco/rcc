@@ -19,7 +19,7 @@ namespace rC
             Console.WriteLine("Note: if running this on windows, make sure to run it on Developer Command Prompt");
             Console.WriteLine("Note: if running this on linux, make sure to have the mono toolkit installed (csc is needed) ");
             Console.WriteLine("Note: the file \"Compile_Example.rcompiler\", seen in https://www.github.com/RodrigoCabaco/rCompiler must be in current directory");
-            Console.WriteLine("Note: Usage -> rCompiler.exe  <files> --windows/linux");
+            Console.WriteLine("Note: Usage -> rCompiler.exe <files> --windows/linux");
             Console.ResetColor();
             List<string> final_code = new List<string>();
             string final_code_str = "";

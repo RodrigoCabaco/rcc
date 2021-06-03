@@ -1,4 +1,52 @@
+using System;
+using rC;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
+using System.Diagnostics;
 
+namespace rC
+{
+  public class Program{
+    static void Main(string [] args){
+        List<string> numberNames = new List<string>();
+            List<float> numberValues = new List<float>();
+            List<string> strNames = new List<string>();
+            List<string> strValues = new List<string>();
+            List<string> references = new List<string>();
+            List<string> strListNames = new List<string>();
+            List<List<string>> strListValues = new List<List<string>>();
+            List<string> numListNames = new List<string>();
+            List<List<float>> numListValues = new List<List<float>>();
+            List<List<string>> lines_for_functions = new List<List<string>>();
+            List<string> names_for_functions = new List<string>();
+            List<string> definers_to_replace = new List<string>();
+            List<string> defined_to_replace = new List<string>();
+            
+            strListNames.Add("args");
+            strListValues.Add(new List<string>());
+             foreach (var arg in args)
+            {
+                int x = Array.IndexOf(args,arg);
+                    strNames.Add("arg" + x);
+                    strValues.Add(arg);
+                    strListValues[strListNames.IndexOf("args")].Add(arg);
+                    
+            }
+        strNames.Add("line_break");
+        strValues.Add("\n");
+        strNames.Add("modules_path");
+        strValues.Add("modules");
+        strNames.Add("path");
+        strValues.Add("/usr/lib/rC");
+        string code_str = @"WriteNum {args.length}
+";
+            List<string> code = code_str.Split('\n').ToList();
+ rCompiler.Compile(code, numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);            }
+            }
+            
    public static class Split
     {
         public static string split(string ToSplit,string spliter,int index)
@@ -67,7 +115,7 @@
     }
     
 public class rCompiler{
-       public static void Compile(
+          public static void Compile(
       List < string > code,
       List < string > numberNames,
       List < float > numberValues,
@@ -87,7 +135,6 @@ public class rCompiler{
       define =:>>
       // definers_to_replace
       // defined_to
-
       //to return something just declare a variable named "return", like "str return >>x"
       */
 
@@ -132,7 +179,6 @@ public class rCompiler{
 
           //TODO - Add general error matching case;        
           //        try{
-
           string line = code[_index];
           current_line = line;
 
@@ -374,7 +420,7 @@ public class rCompiler{
 
                 List < string > to__compile = new List < string > ();
                  to__compile.Add("    ");
-                
+                 to__compile.Add(line.Split(':')[2]);
                 for (int i = 1; i < start.Count; i++) {
 
                   //  Console.WriteLine(start[i]);
@@ -387,7 +433,7 @@ public class rCompiler{
                     }
 
                 }
-                
+                to__compile.Add(line.Split(':')[2]);
                 for (int i = 0; i < to__compile.Count; i++) {
                   if (to__compile[i].StartsWith(indent_if) || start[i].StartsWith("    ")) {
                     try {
@@ -560,7 +606,7 @@ public class rCompiler{
                     }
 
                   }
-                  
+                  to__compile.Add(line.Split(':')[2]);
                   
                   for (int i = 0; i < to__compile.Count; i++) {
                     if (to__compile[i].StartsWith(indent_if) || start[i].StartsWith("    ")) {
@@ -759,7 +805,6 @@ public class rCompiler{
             int range = 0;
             /*
                                      for x in range:
-
                                  */
             string looper = "";
             //     string indent = "";
@@ -822,11 +867,7 @@ public class rCompiler{
                 }
 
               }
-              try{
               to__compile.Add(line.Split(':')[2]);
-              }catch{
-              }
-            
               for (int i = 0; i < to__compile.Count; i++) {
 
                 if (to__compile[i].StartsWith(indent_if) || start[i].StartsWith("    ")) {
@@ -836,6 +877,7 @@ public class rCompiler{
                     } else if (to__compile[i].StartsWith("    ")) {
                       to__compile[i] = to__compile[i].Substring("    ".Length);
                     }
+                    Console.WriteLine(to__compile[i]);
                   } catch {}
                 }
               }
@@ -863,7 +905,7 @@ public class rCompiler{
             try {
               string nameof_func = line.Split('(')[1].Split('(')[0];
               void newThreadStart() {
-                rCompiler.Compile(lines_for_functions[names_for_functions.IndexOf(nameof_func)], numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);
+                Compile(lines_for_functions[names_for_functions.IndexOf(nameof_func)], numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);
                 Console.WriteLine("");
               }
 
@@ -918,6 +960,7 @@ public class rCompiler{
             //   }
             // }
             string indent = indent_if;
+            func_content.Add(line.Split(':')[1]);
             for (int i = 0; i < func_content.Count; i++) {
               if (func_content[i].StartsWith(indent) || func_content[i].StartsWith("    ")) {
                 try {

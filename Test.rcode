@@ -1,2 +1,1 @@
-Write "hi"
-exit()
+WriteNum {args.length}

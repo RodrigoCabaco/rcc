@@ -382,9 +382,7 @@ public class rCompiler{
 
                     to__compile.Add(start[i]);
                   } 
-                    else if (start[i] != "" && start[i] != " " && start[i] != "\n") {
-                      break;
-                    }
+                    break;
 
                 }
                 
@@ -554,9 +552,7 @@ public class rCompiler{
                     if (start[i].StartsWith(indent_if) || start[i].StartsWith("    ")) {
                       to__compile.Add(start[i]);
                     } else {
-                      if (start[i] != "" && start[i] != " " && start[i] != "\n") {
-                        break;
-                      }
+                      break;
                     }
 
                   }
@@ -816,9 +812,7 @@ public class rCompiler{
                   
 
                 } else {
-                  if (start[i] != "" && start[i] != " " && start[i] != "\n") {
-                    break;
-                  }
+                  break;
                 }
 
               }
@@ -898,9 +892,7 @@ public class rCompiler{
                 func_content.Add(start[i]);
 
               } else {
-                if (start[i] != "" && start[i] != " " && start[i] != "\n") {
-                  break;
-                }
+                break;
               }
 
             }

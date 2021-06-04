@@ -183,7 +183,7 @@ public class rCompiler{
       List < List < string >> lines_for_functions,
       List < string > names_for_functions,
       List < string > definers_to_replace,
-      List < string > defined_to_replace) {
+      List < string > defined_to_replace){
 
       /*
       define =:>>
@@ -475,7 +475,11 @@ public class rCompiler{
                 List < string > start = code.GetRange(_index, code.Count - _index);
 
                 List < string > to__compile = new List < string > ();
-                 to__compile.Add(""    "");
+                 if(line.Split(':')[2]!=""""){
+                to__compile.Add(line.Split(':')[2]);
+              }
+              name = """";
+              to__compile.Add(""    "");
                 
                 for (int i = 1; i < start.Count; i++) {
 
@@ -649,7 +653,11 @@ public class rCompiler{
                   List < string > start = code.GetRange(_index, code.Count - _index);
 
                   to__compile = new List < string > ();
-                   to__compile.Add(""    "");
+                  if(line.Split(':')[2]!=""""){
+                to__compile.Add(line.Split(':')[2]);
+              }
+              name = """";
+              to__compile.Add(""    "");
                   for (int i = 1; i < start.Count; i++) {
 
                     //  Console.WriteLine(start[i]);
@@ -895,11 +903,8 @@ public class rCompiler{
                   }, StringSplitOptions.None).Last().Split(':')[0])]);
                 }
               }
-              if (line.Contains('""')) {
-                name = line.Split('""')[1].Split('""').First().Split(':').First();
-              } else {
-                name = """";
-              }
+
+              name = """";
               //              indent = ""    "";
             } catch (Exception exc) {
               Console.WriteLine(exc);
@@ -915,8 +920,12 @@ public class rCompiler{
               //::4
               List < string > start = code.GetRange(_index, code.Count - _index);
               to__compile = new List < string > ();
-              to__compile.Add(""    "");
               
+              if(line.Split(':')[2]!=""""){
+                to__compile.Add(line.Split(':')[2]);
+              }
+              
+              to__compile.Add(""    "");
 
               for (int i = 1; i < start.Count; i++) {
                 //  Console.WriteLine(start[i]);
@@ -931,10 +940,6 @@ public class rCompiler{
                 }
 
               }
-              try{
-              to__compile.Add(line.Split(':')[2]);
-              }catch{
-              }
             
               for (int i = 0; i < to__compile.Count; i++) {
 
@@ -948,11 +953,14 @@ public class rCompiler{
                   } catch {}
                 }
               }
-            } catch {
+            } catch (Exception exc){
 
               if (code.Contains(""suppress_errors()"") == false) {
                 Console.WriteLine(""Incorrect/Missing end statement for for loop: "" + name);
 
+              }
+              if(code.Contains(""show_exceptions()"")==true){
+                Console.WriteLine(exc);
               }
             }
             for (int x = 0; x < range; x++) {
@@ -1038,6 +1046,11 @@ public class rCompiler{
                 } catch {}
               }
             }
+            if(line.Split(':')[1]!=""""){
+                func_content.Add(line.Split(':')[1]);
+              }
+              
+              func_content.Add(""    "");
             lines_for_functions.Add(func_content);
             //Compile(compileAfter, numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);
             continue;
@@ -2101,7 +2114,6 @@ public class rCompiler{
 
       }
     }
-
     }
 }";
 

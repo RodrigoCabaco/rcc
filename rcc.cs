@@ -2121,6 +2121,7 @@ public class rCompiler{
             final_to_write+=_Compile_example;
                      
             StreamWriter __write = new StreamWriter(args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
+            final_to_write = final_to_write.Replace("include \"", "");
             __write.Write(final_to_write);
             __write.Close();
             Console.WriteLine("Made Temp file -> "+args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);

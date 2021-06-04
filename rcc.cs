@@ -483,9 +483,9 @@ public class rCompiler{
                   if (start[i].StartsWith(indent_if) || start[i].StartsWith(""    "")) {
 
                     to__compile.Add(start[i]);
-                  } 
+                  } else{
                     break;
-
+                  }
                 }
                 
                 for (int i = 0; i < to__compile.Count; i++) {

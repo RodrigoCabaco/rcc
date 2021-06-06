@@ -1643,6 +1643,9 @@ public class rCompiler{
             if (is_continue_num) {
               continue;
             }
+            if(line.StartsWith(""str return >>"") ||line.StartsWith(""num return >>"")){
+            return;
+          } 
             //to lower
             /*USAGE
             ___________________________________________________________________________________________________

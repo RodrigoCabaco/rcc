@@ -1,3 +1,6 @@
-Write "hi"
+function write():
+	Write "$to_write$"
 
+
+write(str to_write >>"hi")
 exit()

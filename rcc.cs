@@ -188,12 +188,16 @@ public class rCompiler{
       /*
       define =:>>
       // definers_to_replace
+      //doubleValue.ToString(""0."" + new string('#', 339))
+
       // defined_to
 
       //to return something just declare a variable named ""return"", like ""str return >>x""
       */
 
       string current_line = """";
+
+      int current_line_index = 0;
       List < int > pixelX = new List < int > ();
       List < int > pixelY = new List < int > ();
       List < ConsoleColor > pixelColors = new List < ConsoleColor > ();
@@ -237,7 +241,7 @@ public class rCompiler{
 
           string line = code[_index];
           current_line = line;
-
+          current_line_index++;
           if (definers_to_replace.Count > 0) {
             for (int i = 0; i < definers_to_replace.Count; i++) {
               if (line.Contains(definers_to_replace[i])) {
@@ -259,11 +263,20 @@ public class rCompiler{
           foreach(var func_name in names_for_functions) {
 
             if (line.Contains(func_name + ""("") && line.StartsWith(indent_if) == false && line.StartsWith(""    "")==false) {
-                List < string > add_args = line.Split(new [] {
-                  func_name
-                }, StringSplitOptions.None)[1].Split('(')[1].Split(')')[0].Split(new [] {
+                List < string > add_args = new List<string>();
+                if (line.Contains(func_name+""("")){
+                  add_args = line.Split(new [] {
+                  func_name+""(""
+                }, StringSplitOptions.None)[1].Split(')')[0].Split(new [] {
                 "";;""
               }, StringSplitOptions.None).ToList();
+                }else if(line.Contains(func_name + "" ("")){
+                  add_args = line.Split(new [] {
+                  func_name+"" (""
+                }, StringSplitOptions.None)[1].Split(')')[0].Split(new [] {
+                "";;""
+              }, StringSplitOptions.None).ToList();
+                }
               _Compile(add_args);
               if (strNames.Contains(""return"")) {
                 strValues[strNames.IndexOf(""return"")] = """";
@@ -730,7 +743,7 @@ public class rCompiler{
               foreach(var nametoCheck in namesToCheck) {
                 try {
                   if (nametoCheck == name || nametoCheck == ""{"" + name || nametoCheck == name + ""}"" || nametoCheck == ""{"" + name + ""}"") {
-                    Console.Write(numberValues[numberNames.IndexOf(name)]);
+                    Console.Write(Convert.ToDouble(numberValues[numberNames.IndexOf(name)]).ToString(""0."" + new string('#', 339)));
                   }
                 } catch {
                   Console.WriteLine(""Invalid Syntax on Line "" + code.IndexOf(line));
@@ -1047,7 +1060,11 @@ public class rCompiler{
               }
             }
             if(line.Split(':')[1]!=""""){
+                if(line.Split(':')[1].StartsWith("" "")){
+                  func_content.Add(line.Split(':')[1].Split(' ')[1]);
+                }else{
                 func_content.Add(line.Split(':')[1]);
+                }
               }
               
               func_content.Add(""    "");
@@ -2092,7 +2109,7 @@ public class rCompiler{
           }
         }
       } catch (Exception exc) {
-        string f = current_line;
+        string f = code[current_line_index];
         bool except_errors = code.Contains(""suppress_errors()"");
         bool show_exceptions = code.Contains(""show_exceptions()"");
         if (show_exceptions) {
@@ -2101,7 +2118,7 @@ public class rCompiler{
         if (except_errors == true) {
 
         } else {
-          Console.WriteLine(""Error while running the following: "" + f);
+          Console.WriteLine(""(Line ""+(current_line_index+1).ToString()+"") - ""+ ""Error -> "" + f);
         }
       }
 

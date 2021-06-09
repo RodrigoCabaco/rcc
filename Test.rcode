@@ -1,6 +1,4 @@
-function write():
-	Write "$to_write$"
+function m():Write "HI"
 
-
-write(str to_write >>"hi")
+m()
 exit()

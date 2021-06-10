@@ -1030,7 +1030,7 @@ public class rCompiler{
             } catch {
               Console.WriteLine($""{line} : Error Starting Thread"");
             }
-
+          continue;
           }
 
           if (line.StartsWith(""function "")) {
@@ -1130,6 +1130,7 @@ public class rCompiler{
             } catch {
               Console.WriteLine(""Fatal error, line: "" + code.IndexOf(line));
             }
+            continue;
           }
           if (line.ToLower().StartsWith(""updatestrlistvalue"")) {
             //updateStrListValue(MyList[x])
@@ -1144,6 +1145,7 @@ public class rCompiler{
             } catch {
               Console.WriteLine(""Fatal error on line: "" + code.IndexOf(line));
             }
+            continue;
           }
           if (line.ToLower().StartsWith(""updatenumlistvalue"")) {
             //updateStrListValue(MyList[x])
@@ -1158,6 +1160,7 @@ public class rCompiler{
             } catch {
               Console.WriteLine(""Fatal error on line: "" + code.IndexOf(line));
             }
+            continue;
           }
           if (line.ToLower().StartsWith(""sqrt"")) {
 
@@ -1191,6 +1194,7 @@ public class rCompiler{
                 }
               }
             }
+            continue;
           }
           if (line.StartsWith(""list(num)"")) {
             numListNames.Add(line.Split(')')[1].Split('\""')[1].Split('\""').First());
@@ -1211,7 +1215,7 @@ public class rCompiler{
                 }
               }
             }
-
+            continue;
           }
           foreach(var listName in strListNames) {
             // if(line.Contains(listName) && line.Contains('[')){
@@ -1275,6 +1279,7 @@ public class rCompiler{
                 }
               }
             }
+            continue;
           }
           foreach(var listName in numListNames) {
             if (line.StartsWith(listName + "".IndexOf:"")) {
@@ -1314,6 +1319,7 @@ public class rCompiler{
                 }
               }
             }
+            continue;
           }
           if (line.ToLower().StartsWith(""lnval("") || line.StartsWith(""lnval ("")) {
             int index = 0;
@@ -1721,7 +1727,7 @@ public class rCompiler{
                   }, StringSplitOptions.None).Last().Split(')').First().ToLower();
                 }
               }
-
+              continue;
             } else if (line.StartsWith(""toLower ("") && line.Contains("")"") && line.Contains("">>"") == false) {
               try {
                 strValues[strNames.IndexOf(line.Split(new [] {
@@ -1732,6 +1738,7 @@ public class rCompiler{
               } catch {
 
               }
+              continue;
             }
 
             //toUpper
@@ -1820,7 +1827,7 @@ public class rCompiler{
                 } else if (color == ""yellow"") {
                   pixelColors.Add(ConsoleColor.Yellow);
                 }
-
+                continue;
               }
               if (line.ToLower().StartsWith(""pixel.drawchar"")) {
                 try {
@@ -1868,6 +1875,7 @@ public class rCompiler{
                 } catch {
                   Console.WriteLine(""Invalid Syntax In Line "" + code.IndexOf(line));
                 }
+                continue;
               }
             }
             if (references.Contains(""process"")) {

@@ -18,7 +18,7 @@ namespace rC
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Note: if running this on windows, make sure to run it on Developer Command Prompt");
             Console.WriteLine("Note: if running this on linux, make sure to have the mono toolkit installed (csc is needed) ");
-            Console.WriteLine("Note: Usage -> rCompiler.exe <files> --windows/linux");
+            Console.WriteLine("Note: Usage -> rcc.exe <files> --windows/linux");
             Console.ResetColor();
             List<string> final_code = new List<string>();
             string final_code_str = "";
@@ -41,6 +41,27 @@ namespace rC
                 }
               }
               }
+              string final_include = "";
+              foreach (var _line in final_code_str.Split('\n'))
+              {
+                  if (_line.StartsWith("include ")){
+                    string f_to_include = _line.Split('"')[1];
+                    try{
+                  StreamReader rread = new StreamReader(f_to_include);
+                  string read_line = "";
+                  while((read_line=rread.ReadLine())!=null){
+                    final_include+=read_line+"\n";
+                  }
+                  rread.Close();
+                }catch{
+                  Console.WriteLine("Couldn't read file: "+f_to_include);
+                  Environment.Exit(1);
+                }
+                  }
+              }
+              final_code_str = final_include+final_code_str;
+              Console.WriteLine("Finished reading all included files, final code: ");
+              Console.WriteLine(final_code_str.Replace("include \"", "\""));
               final_code_str = final_code_str.Replace("include \"", "\"");
             }else{
                Console.ForegroundColor = ConsoleColor.Red;
@@ -250,6 +271,26 @@ public class rCompiler{
               }
             }
           }
+
+            if (line.Contains('$')) {
+            foreach(var string_var in strNames) {
+              try {
+                string toReplace = ""$"" + string_var + ""$"";
+                line = line.Replace(toReplace, strValues[strNames.IndexOf(string_var)]);
+      
+              } catch {}
+            }
+            foreach(var num_var in numberNames) {
+              try {
+                string toReplace = ""$"" + num_var + ""$"";
+                line = line.Replace(toReplace, numberValues[numberNames.IndexOf(num_var)].ToString());
+
+              } catch {
+
+              }
+            }
+
+          }
           if(line.Split(' ').First()==""continue""){
             continue;
           }
@@ -344,24 +385,7 @@ public class rCompiler{
               strValues[strNames.IndexOf(""keyavailable"")] = ""False"";
             }
           }
-          if (line.Contains('$')) {
-            foreach(var string_var in strNames) {
-              try {
-                string toReplace = ""$"" + string_var + ""$"";
-                line = line.Replace(toReplace, strValues[strNames.IndexOf(string_var)]);
-              } catch {}
-            }
-            foreach(var num_var in numberNames) {
-              try {
-                string toReplace = ""$"" + num_var + ""$"";
-                line = line.Replace(toReplace, numberValues[numberNames.IndexOf(num_var)].ToString());
-
-              } catch {
-
-              }
-            }
-
-          }
+        
           if (line.StartsWith(""define "")) {
             // define ""="":"">>""
             if (definers_to_replace.Contains(line.Split(':')[0].Split('""')[1]) == false) {
@@ -2029,7 +2053,7 @@ public class rCompiler{
               continue;
 
             }
-
+            code[_index] = line;
             //usage: replace:f; with:d; str:string;
             if (line.ToLower().StartsWith(""replace"")) {
               string toReplace = line.Split(new [] {

@@ -1,4 +1,6 @@
-function m():Write "HI"
+include "headers.h.rcode"
+            joi
 
-m()
+Write "hi"
+    qwuio   qw
 exit()

@@ -370,6 +370,23 @@ public class rCompiler{
           if (is_continue) {
             continue;
           }
+
+           foreach(var stringList in strListNames) {
+            if (numberNames.Contains(stringList + .length)) {
+              numberValues[numberNames.IndexOf(stringList + .length)] = strListValues[strListNames.IndexOf(stringList)].Count;
+            } else {
+              numberNames.Add(stringList + .length);
+              numberValues.Add(strListValues[strListNames.IndexOf(stringList)].Count);
+            }
+          }
+          foreach(var numList in numListNames) {
+            if (numberNames.Contains(numList + .length)) {
+              numberValues[numberNames.IndexOf(numList + .length)] = numListValues[numListNames.IndexOf(numList)].Count;
+            } else {
+              numberNames.Add(numList + .length);
+              numberValues.Add(numListValues[numListNames.IndexOf(numList)].Count);
+            }
+          }
           if (strNames.Contains(keyavailable) == false) {
             if (Console.KeyAvailable == true) {
               strNames.Add(keyavailable);
@@ -1410,22 +1427,7 @@ public class rCompiler{
             continue;
           }
 
-          foreach(var stringList in strListNames) {
-            if (numberNames.Contains(stringList + .length)) {
-              numberValues[numberNames.IndexOf(stringList + .length)] = strListValues[strListNames.IndexOf(stringList)].Count;
-            } else {
-              numberNames.Add(stringList + .length);
-              numberValues.Add(strListValues[strListNames.IndexOf(stringList)].Count);
-            }
-          }
-          foreach(var numList in numListNames) {
-            if (numberNames.Contains(numList + .length)) {
-              numberValues[numberNames.IndexOf(numList + .length)] = numListValues[numListNames.IndexOf(numList)].Count;
-            } else {
-              numberNames.Add(numList + .length);
-              numberValues.Add(numListValues[numListNames.IndexOf(numList)].Count);
-            }
-          }
+         
 
           if (line.StartsWith(numToStr)) {
 
@@ -2208,6 +2210,7 @@ public class rCompiler{
         Compile(to_compile_, numberNames, numberValues, strNames, strValues, references, strListNames, strListValues, numListNames, numListValues, lines_for_functions, names_for_functions, definers_to_replace, defined_to_replace);
 
       }
+    }
     }
 }";
 

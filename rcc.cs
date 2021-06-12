@@ -18,14 +18,14 @@ namespace rC
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Note: if running this on windows, make sure to run it on Developer Command Prompt");
             Console.WriteLine("Note: if running this on linux, make sure to have the mono toolkit installed (csc is needed) ");
-            Console.WriteLine("Note: Usage -> rcc.exe <files> --windows/linux");
+            Console.WriteLine("Note: Usage -> rcc.exe <files> <optional args, example: --icon:something.ico> --windows/linux");
             Console.ResetColor();
             List<string> final_code = new List<string>();
             string final_code_str = "";
 
             if(args.Length>=1){
               foreach(var arg in args){
-                if(arg.ToLower()!="--windows"&&arg.ToLower()!="--linux")
+                if(arg.ToLower()!="--windows"&&arg.ToLower()!="--linux"&&arg.ToLower().StartsWith("--icon")==false)
                 {
                 try{
                   StreamReader rread = new StreamReader(arg);
@@ -2213,6 +2213,7 @@ public class rCompiler{
 
       }
     }
+}
 }";
 
 
@@ -2224,7 +2225,19 @@ public class rCompiler{
             __write.Close();
             Console.WriteLine("Made Temp file -> "+args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             if(args.Contains("--windows")){
-              Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
+              bool icon_param = false;
+              string icon_to_use = "";
+              foreach(var __arg in args){
+                if(__arg.StartsWith("--icon:")){
+                  icon_param = true;
+                  icon_to_use = __arg.Split(new []{"--icon:"}, StringSplitOptions.None)[1];
+                }
+              }
+              if(icon_param==false){
+                Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
+              }else{
+                Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe", args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]+" /win32icon:"+icon_to_use);
+              }
             }else if(args.Contains("--linux")){
               Process.Start("csc",  args[0].Split(new [] {".rcode"}, StringSplitOptions.None)[0]);
             }else{

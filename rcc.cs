@@ -302,7 +302,7 @@ public class rCompiler{
           }
           bool is_continue = false;
           foreach(var func_name in names_for_functions) {
-
+            //add(num x: 3;;num y:4)
             if (line.Contains(func_name + ""("") && line.StartsWith(indent_if) == false && line.StartsWith(""    "")==false) {
                 List < string > add_args = new List<string>();
                 if (line.Contains(func_name+""("")){
@@ -317,6 +317,10 @@ public class rCompiler{
                 }, StringSplitOptions.None)[1].Split(')')[0].Split(new [] {
                 "";;""
               }, StringSplitOptions.None).ToList();
+                }
+                for (int i = 0; i < add_args.Count; i++)
+                {
+                  add_args[i] = add_args[i].Replace("":"", "" >>"");
                 }
               _Compile(add_args);
               if (strNames.Contains(""return"")) {
@@ -724,10 +728,11 @@ public class rCompiler{
                   __line_indented = __line.Substring(indent_if.Length);
                 }else{
                   if (__line != """" && __line != ""\n""){
-                  Console.WriteLine(""Error: All the Content inside a multiline str must be indented to prevent non expected code execution"");
-                  Environment.Exit(1);
-
+                    Console.WriteLine(""Error: All the Content inside a multiline str must be indented to prevent non expected code execution"");
+                    Environment.Exit(1);
                   }
+                   
+
                 }
                 final_str+=""\n""+__line_indented;
               }
@@ -968,15 +973,19 @@ public class rCompiler{
 
                 if (line.Split('>').Last().ToLower().StartsWith(""$read"") == false) {
                   strNames.Add(line.Split(' ')[1].Split('>').First());
-                  if (line.Split('>')[2].Contains('""')) {
+                  if (line.Split('>')[2].Replace("" "", """")[0] == '""') {
                     strValues.Add(line.Split('>')[2].Split('\""')[1].Split('\""').First());
                   } else {
                     try {
-
+                
                       strValues.Add(strValues[strNames.IndexOf(line.Split('>')[2])]);
+                    
+                    } catch(Exception e) {
 
-                    } catch {
                       Console.WriteLine(""Error: "" + line);
+                      if(code.Contains(""show_exceptions()"")){
+                        Console.WriteLine(e);
+                      }
                     }
                   }
                 } else if (line.Split('>').Last().ToLower() == ""$readkey"") {
